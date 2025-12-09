@@ -1,6 +1,6 @@
-use clap::{Parser, builder::Str};
+use clap::Parser;
 mod methods;
-use methods::*;
+
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 struct Args {
