@@ -1,4 +1,4 @@
-use clap::Parser;
+use clap::{Parser, ValueEnum};
 mod methods;
 
 #[derive(Parser, Debug)]
@@ -11,7 +11,8 @@ struct Args {
     #[arg(short, long)]
     decode: bool,
 
-    method: String,
+    #[arg(value_enum)]
+    method: Method,
 
     #[arg(short = 'f', long)]
     input_file: Option<String>,
@@ -21,6 +22,18 @@ struct Args {
 
     data: Option<String>,
 
+}
+
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum, Debug)]
+enum Method {
+    Echo,
+    Rot26,
+    Base64,
+    Sha256,
+    Sha512,
+    Sha384,
+    Sha224,
+    Sha512_256,
 }
 
 fn main() {
@@ -41,17 +54,17 @@ fn main() {
     };
 
     if args.verbose {
-        println!("Method: {}", args.method);
+        println!("Method: {:?}", args.method);
         println!("input_file: {:?}", args.input_file);
         println!("Decode: {}", args.decode);
         println!("Data: {}", data);
     }
 
-    let output: String = match args.method.as_str() {
-        "echo" | "rot26" => {
+    let output: String = match args.method {
+        Method::Echo | Method::Rot26 => {
             methods::echo::echo(&data).to_string()
         },
-        "base64" => {
+        Method::Base64 => {
             if args.decode {
                 match methods::base64::base64_decode(&data) {
                     Ok(decoded) => decoded,
@@ -61,25 +74,11 @@ fn main() {
                 methods::base64::base64_encode(&data)
             }
         },
-        "sha256" => {
-            methods::sha2::sha256_hash(&data)
-        },
-        "sha512" => {
-            methods::sha2::sha512_hash(&data)
-        },
-        "sha384" => {
-            methods::sha2::sha384_hash(&data)
-        },
-        "sha224" => {
-            methods::sha2::sha224_hash(&data)
-        },
-        "sha512_256" => {
-            methods::sha2::sha512_256_hash(&data)
-        },
-        _ => {
-            eprintln!("Unknown method: {}", args.method);
-            std::process::exit(1);
-        }
+        Method::Sha256 => methods::sha2::sha256_hash(&data),
+        Method::Sha512 => methods::sha2::sha512_hash(&data),
+        Method::Sha384 => methods::sha2::sha384_hash(&data),
+        Method::Sha224 => methods::sha2::sha224_hash(&data),
+        Method::Sha512_256 => methods::sha2::sha512_256_hash(&data),
     };
 
     if let Some(output_file) = args.output_file {
