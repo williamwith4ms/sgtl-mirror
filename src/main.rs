@@ -18,7 +18,7 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::parse();
+    let args: Args = Args::parse();
 
     if args.verbose {
         println!("Method: {}", args.method);
@@ -28,8 +28,19 @@ fn main() {
 
     match args.method.as_str() {
         "echo" => {
-            let result = methods::echo::echo(&args.data);
+            let result: &str = methods::echo::echo(&args.data);
             println!("{}", result);
+        },
+        "base64" => {
+            if args.decode {
+                match methods::base64::base64_decode(&args.data) {
+                    Ok(decoded) => println!("{}", decoded),
+                    Err(e) => eprintln!("base64 error: {}", e),
+                }
+            } else {
+                let encoded: String = methods::base64::base64_encode(&args.data);
+                println!("{}", encoded);
+            }
         },
         _ => {
             eprintln!("Unknown method: {}", args.method);
