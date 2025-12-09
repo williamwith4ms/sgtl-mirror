@@ -90,3 +90,42 @@ fn main() {
 
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_args_parsing() {
+        let args = Args::parse_from(&["sgtl", "-v", "echo", "Hello, world!"]);
+        assert!(args.verbose);
+        assert_eq!(args.method, Method::Echo);
+        assert_eq!(args.data.unwrap(), "Hello, world!");
+    }
+
+    #[test]
+    fn test_all_methods_parse_correctly() {
+        let cases = [
+            ("echo", Method::Echo),
+            ("rot26", Method::Rot26),
+            ("base64", Method::Base64),
+            ("sha256", Method::Sha256),
+            ("sha512", Method::Sha512),
+            ("sha384", Method::Sha384),
+            ("sha224", Method::Sha224),
+            ("sha512-256", Method::Sha512_256),
+        ];
+
+        for (method_str, method_enum) in cases {
+            let args = Args::parse_from(&["sgtl", method_str, "data"]);
+            assert_eq!(args.method, method_enum, "method string: {}", method_str);
+        }
+    }
+    
+    #[test]
+    fn test_missing_method_is_error() {
+        // No method (the value_enum positional argument) => clap should error.
+        let result = Args::try_parse_from(&["sgtl"]);
+        assert!(result.is_err());
+    }
+
+}
