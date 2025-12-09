@@ -13,6 +13,7 @@ struct Args {
 
     method: String,
 
+
     data: String,
 
 }
@@ -27,7 +28,7 @@ fn main() {
     }
 
     match args.method.as_str() {
-        "echo" => {
+        "echo" | "rot26" => {
             let result: &str = methods::echo::echo(&args.data);
             println!("{}", result);
         },
@@ -41,6 +42,26 @@ fn main() {
                 let encoded: String = methods::base64::base64_encode(&args.data);
                 println!("{}", encoded);
             }
+        },
+        "sha256" => {
+            let hash: String = methods::sha2::sha256_hash(&args.data);
+            println!("{}", hash);
+        },
+        "sha512" => {
+            let hash: String = methods::sha2::sha512_hash(&args.data);
+            println!("{}", hash);
+        },
+        "sha384" => {
+            let hash: String = methods::sha2::sha384_hash(&args.data);
+            println!("{}", hash);
+        },
+        "sha224" => {
+            let hash: String = methods::sha2::sha224_hash(&args.data);
+            println!("{}", hash);
+        },
+        "sha512_256" => {
+            let hash: String = methods::sha2::sha512_256_hash(&args.data);
+            println!("{}", hash);
         },
         _ => {
             eprintln!("Unknown method: {}", args.method);
