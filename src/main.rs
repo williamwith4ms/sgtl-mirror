@@ -21,7 +21,6 @@ struct Args {
     output_file: Option<String>,
 
     data: Option<String>,
-
 }
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, ValueEnum, Debug)]
@@ -44,7 +43,7 @@ fn main() {
         std::process::exit(1);
     } else if args.data.is_some() && args.input_file.is_some() {
         eprintln!("Error: Provide either data or input_file, not both.");
-        std::process::exit(1); 
+        std::process::exit(1);
     } else if args.data.is_none() && args.input_file.is_some() {
         // read from file
         let file_path: &str = args.input_file.as_ref().unwrap();
@@ -61,19 +60,20 @@ fn main() {
     }
 
     let output: String = match args.method {
-        Method::Echo | Method::Rot26 => {
-            methods::echo::echo(&data).to_string()
-        },
+        Method::Echo | Method::Rot26 => methods::echo::echo(&data).to_string(),
         Method::Base64 => {
             if args.decode {
                 match methods::base64::base64_decode(&data) {
                     Ok(decoded) => decoded,
-                    Err(e) => {eprintln!("base64 error: {}", e); std::process::exit(1);},
+                    Err(e) => {
+                        eprintln!("base64 error: {}", e);
+                        std::process::exit(1);
+                    }
                 }
             } else {
                 methods::base64::base64_encode(&data)
             }
-        },
+        }
         Method::Sha256 => methods::sha2::sha256_hash(&data),
         Method::Sha512 => methods::sha2::sha512_hash(&data),
         Method::Sha384 => methods::sha2::sha384_hash(&data),
@@ -86,8 +86,6 @@ fn main() {
     } else {
         println!("{}", output);
     }
-
-
 }
 
 #[cfg(test)]
@@ -120,12 +118,11 @@ mod tests {
             assert_eq!(args.method, method_enum, "method string: {}", method_str);
         }
     }
-    
+
     #[test]
     fn test_missing_method_is_error() {
         // No method (the value_enum positional argument) => clap should error.
         let result = Args::try_parse_from(&["sgtl"]);
         assert!(result.is_err());
     }
-
 }

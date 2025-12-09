@@ -1,4 +1,4 @@
-use sha2::{Sha256, Digest};
+use sha2::{Digest, Sha256};
 
 pub fn sha256_hash(input: &str) -> String {
     let mut hasher = Sha256::new();
@@ -56,7 +56,7 @@ mod tests {
     fn test_sha384_hash() {
         let input: &str = "Hello, world!";
         let expected: &str = "55bc556b0d2fe0fce582ba5fe07baafff035653638c7ac0d5494c2a64c0bea1cc57331c7c12a45cdbca7f4c34a089eeb";
-        assert_eq!(sha384_hash(input), expected);   
+        assert_eq!(sha384_hash(input), expected);
     }
 
     #[test]
