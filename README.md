@@ -8,7 +8,7 @@ Installation is easy, clone the repo and run the make.
 ```
 git clone https://gitlab.com/williamwith4ms/sgtl
 cd ./sgtl
-make install
+sudo make install
 ```
 
 ## Usage
