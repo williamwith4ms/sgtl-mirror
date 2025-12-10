@@ -11,10 +11,10 @@ struct Args {
     #[arg(short, long, global = true)]
     decode: bool,
 
-    #[arg(short = 'f', long, global = true)]
+    #[arg(short = 'i', long = "input", global = true)]
     input_file: Option<String>,
 
-    #[arg(short = 'o', long, global = true)]
+    #[arg(short = 'o', long = "output", global = true)]
     output_file: Option<String>,
 
     /// subcommand to choose method
