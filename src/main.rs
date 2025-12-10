@@ -29,74 +29,56 @@ enum Method {
         about = "Returns the input unchanged", 
         long_about = None, 
         after_help = "Example: sgtl echo -d 'Hello, world!'")]
-    Echo {
-        data: Option<String>,
-    },
+    Echo { data: Option<String> },
     #[command(
-        name = "rot26", 
-        about = "Applies ROT26 cipher (no change)", 
-        long_about = "Applies ROT26 cipher (no change), this is actually just an alias for echo.", 
-        after_help = "Example: sgtl rot26 -d 'Hello, world!'")]
-    Rot26 {
-        data: Option<String>,
-    },
+        name = "rot26",
+        about = "Applies ROT26 cipher (no change)",
+        long_about = "Applies ROT26 cipher (no change), this is actually just an alias for echo.",
+        after_help = "Example: sgtl rot26 -d 'Hello, world!'"
+    )]
+    Rot26 { data: Option<String> },
     #[command(
         name = "base64", 
         about = "Encodes/Decodes Base64", 
         long_about = None, 
         after_help = "Example: sgtl base64 -d 'Hello, world!'")]
-    Base64 {
-        data: Option<String>,
-    },
+    Base64 { data: Option<String> },
     #[command(
         name = "sha256", 
         about = "Computes SHA-256 hash", 
         long_about = None, 
         after_help = "Example: sgtl sha256 -d 'Hello, world!'")]
-    Sha256 {
-        data: Option<String>,
-    },
+    Sha256 { data: Option<String> },
     #[command(
         name = "sha512", 
         about = "Computes SHA-512 hash", 
         long_about = None, 
         after_help = "Example: sgtl sha512 -d 'Hello, world!'")]
-    Sha512 {
-        data: Option<String>,
-    },
+    Sha512 { data: Option<String> },
     #[command(
         name = "sha384", 
         about = "Computes SHA-384 hash", 
         long_about = None, 
         after_help = "Example: sgtl sha384 -d 'Hello, world!'")]
-    Sha384 {
-        data: Option<String>,
-    },
+    Sha384 { data: Option<String> },
     #[command(
         name = "sha224", 
         about = "Computes SHA-224 hash", 
         long_about = None, 
         after_help = "Example: sgtl sha224 -d 'Hello, world!'")]
-    Sha224 {
-        data: Option<String>,
-    },
+    Sha224 { data: Option<String> },
     #[command(
         name = "sha512_256", 
         about = "Computes SHA-512/256 hash", 
         long_about = None, 
         after_help = "Example: sgtl sha512_256 -d 'Hello, world!'")]
-    Sha512_256 {
-        data: Option<String>,
-    },
+    Sha512_256 { data: Option<String> },
     #[command(
         name = "caesar", 
         about = "Applies Caesar cipher with a specified shift", 
         long_about = None, 
         after_help = "Example: sgtl caesar 3 'Hello, world!'")]
-    Caesar {
-        shift: i8,
-        data: Option<String>,
-    },
+    Caesar { shift: i8, data: Option<String> },
 }
 
 impl Method {
@@ -115,11 +97,9 @@ impl Method {
     }
 }
 
-
 fn get_data(args: &Args) -> String {
     let file = &args.input_file;
     let data = args.method.data();
-
 
     match (file, data) {
         (Some(_), Some(_)) => {
@@ -134,7 +114,6 @@ fn get_data(args: &Args) -> String {
         }
     }
 }
-
 
 fn main() {
     let args: Args = Args::parse();
@@ -152,7 +131,9 @@ fn main() {
     }
 
     let output: String = match &args.method {
-        Method::Echo { data: _ } | Method::Rot26 { data: _ } => methods::echo::echo(&input_data).to_string(),
+        Method::Echo { data: _ } | Method::Rot26 { data: _ } => {
+            methods::echo::echo(&input_data).to_string()
+        }
         Method::Base64 { data: _ } => {
             if args.decode {
                 match methods::base64::base64_decode(&input_data) {
@@ -168,39 +149,49 @@ fn main() {
         }
         Method::Sha256 { data: _ } => {
             if args.decode {
-                eprintln!("Error: SHA256 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                eprintln!(
+                    "Error: SHA256 is one-way (trust me, if i could decode sha i wouldn't be doing this)"
+                );
                 std::process::exit(1);
             }
             methods::sha2::sha256_hash(&input_data)
-        },
+        }
         Method::Sha512 { data: _ } => {
             if args.decode {
-                eprintln!("Error: SHA512 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                eprintln!(
+                    "Error: SHA512 is one-way (trust me, if i could decode sha i wouldn't be doing this)"
+                );
                 std::process::exit(1);
             }
             methods::sha2::sha512_hash(&input_data)
-        },
+        }
         Method::Sha384 { data: _ } => {
             if args.decode {
-                eprintln!("Error: SHA384 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                eprintln!(
+                    "Error: SHA384 is one-way (trust me, if i could decode sha i wouldn't be doing this)"
+                );
                 std::process::exit(1);
             }
             methods::sha2::sha384_hash(&input_data)
-        },
+        }
         Method::Sha224 { data: _ } => {
             if args.decode {
-                eprintln!("Error: SHA224 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                eprintln!(
+                    "Error: SHA224 is one-way (trust me, if i could decode sha i wouldn't be doing this)"
+                );
                 std::process::exit(1);
             }
             methods::sha2::sha224_hash(&input_data)
-        },
+        }
         Method::Sha512_256 { data: _ } => {
             if args.decode {
-                eprintln!("Error: SHA512/256 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                eprintln!(
+                    "Error: SHA512/256 is one-way (trust me, if i could decode sha i wouldn't be doing this)"
+                );
                 std::process::exit(1);
             }
             methods::sha2::sha512_256_hash(&input_data)
-        },
+        }
         Method::Caesar { data: _, shift } => {
             if args.decode {
                 methods::caesar::caesar_decipher(&input_data, *shift)
@@ -274,7 +265,9 @@ mod tests {
             decode: false,
             input_file: Some("test.txt".to_string()),
             output_file: None,
-            method: Method::Echo { data: Some("Test data".to_string()) },
+            method: Method::Echo {
+                data: Some("Test data".to_string()),
+            },
         };
         let result = std::panic::catch_unwind(|| {
             get_data(&args);
