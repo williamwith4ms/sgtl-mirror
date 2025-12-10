@@ -1,9 +1,18 @@
 [package]
 name = "sgtl"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2024"
 
 [dependencies]
 base64 = "0.22.1"
 clap = { version = "4.5.53", features = ["derive"] }
+clap_complete = "4.5.61"
 sha2 = "0.10.9"
+
+[[bin]]
+name = "sgtl"
+path = "src/main.rs"
+
+[[bin]]
+name = "completions"
+path = "src/completions.rs"
