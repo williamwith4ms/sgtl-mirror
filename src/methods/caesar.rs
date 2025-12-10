@@ -1,13 +1,16 @@
 pub fn caesar_encipher(input: &str, shift: i8) -> String {
-    input.chars().map(|c| {
-        if c.is_ascii_alphabetic() {
-            let base = if c.is_ascii_lowercase() { b'a' } else { b'A' };
-            let shifted = ((c as u8 - base + (shift as u8)) % 26) + base;
-            shifted as char
-        } else {
-            c
-        }
-    }).collect()
+    input
+        .chars()
+        .map(|c| {
+            if c.is_ascii_alphabetic() {
+                let base = if c.is_ascii_lowercase() { b'a' } else { b'A' };
+                let shifted = ((c as u8 - base + (shift as u8)) % 26) + base;
+                shifted as char
+            } else {
+                c
+            }
+        })
+        .collect()
 }
 
 pub fn caesar_decipher(input: &str, shift: i8) -> String {

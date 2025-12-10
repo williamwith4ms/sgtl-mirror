@@ -24,6 +24,7 @@ struct Args {
 
 #[derive(Subcommand, Debug, PartialEq)]
 enum Method {
+    #[command(name = "echo", about = "Returns the input string unchanged", long_about = None, after_help = "Example: sgtl echo -d 'Hello, world!'")]
     Echo {
         data: Option<String>,
     },
@@ -70,11 +71,9 @@ impl Method {
     }
 }
 
-
 fn get_data(args: &Args) -> String {
     let file = &args.input_file;
     let data = args.method.data();
-
 
     match (file, data) {
         (Some(_), Some(_)) => {
@@ -89,7 +88,6 @@ fn get_data(args: &Args) -> String {
         }
     }
 }
-
 
 fn main() {
     let args: Args = Args::parse();
@@ -107,7 +105,9 @@ fn main() {
     }
 
     let output: String = match &args.method {
-        Method::Echo { data: _ } | Method::Rot26 { data: _ } => methods::echo::echo(&input_data).to_string(),
+        Method::Echo { data: _ } | Method::Rot26 { data: _ } => {
+            methods::echo::echo(&input_data).to_string()
+        }
         Method::Base64 { data: _ } => {
             if args.decode {
                 match methods::base64::base64_decode(&input_data) {
@@ -126,7 +126,10 @@ fn main() {
         Method::Sha384 { data: _ } => methods::sha2::sha384_hash(&input_data),
         Method::Sha224 { data: _ } => methods::sha2::sha224_hash(&input_data),
         Method::Sha512_256 { data: _ } => methods::sha2::sha512_256_hash(&input_data),
-        Method::Caesar { data: _, additional } => {
+        Method::Caesar {
+            data: _,
+            additional,
+        } => {
             if args.decode {
                 methods::caesar::caesar_decipher(&input_data, *additional)
             } else {
@@ -199,7 +202,9 @@ mod tests {
             decode: false,
             input_file: Some("test.txt".to_string()),
             output_file: None,
-            method: Method::Echo { data: Some("Test data".to_string()) },
+            method: Method::Echo {
+                data: Some("Test data".to_string()),
+            },
         };
         let result = std::panic::catch_unwind(|| {
             get_data(&args);
