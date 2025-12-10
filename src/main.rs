@@ -166,11 +166,41 @@ fn main() {
                 methods::base64::base64_encode(&input_data)
             }
         }
-        Method::Sha256 { data: _ } => methods::sha2::sha256_hash(&input_data),
-        Method::Sha512 { data: _ } => methods::sha2::sha512_hash(&input_data),
-        Method::Sha384 { data: _ } => methods::sha2::sha384_hash(&input_data),
-        Method::Sha224 { data: _ } => methods::sha2::sha224_hash(&input_data),
-        Method::Sha512_256 { data: _ } => methods::sha2::sha512_256_hash(&input_data),
+        Method::Sha256 { data: _ } => {
+            if args.decode {
+                eprintln!("Error: SHA256 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                std::process::exit(1);
+            }
+            methods::sha2::sha256_hash(&input_data)
+        },
+        Method::Sha512 { data: _ } => {
+            if args.decode {
+                eprintln!("Error: SHA512 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                std::process::exit(1);
+            }
+            methods::sha2::sha512_hash(&input_data)
+        },
+        Method::Sha384 { data: _ } => {
+            if args.decode {
+                eprintln!("Error: SHA384 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                std::process::exit(1);
+            }
+            methods::sha2::sha384_hash(&input_data)
+        },
+        Method::Sha224 { data: _ } => {
+            if args.decode {
+                eprintln!("Error: SHA224 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                std::process::exit(1);
+            }
+            methods::sha2::sha224_hash(&input_data)
+        },
+        Method::Sha512_256 { data: _ } => {
+            if args.decode {
+                eprintln!("Error: SHA512/256 is one-way (trust me, if i could decode sha i wouldn't be doing this)");
+                std::process::exit(1);
+            }
+            methods::sha2::sha512_256_hash(&input_data)
+        },
         Method::Caesar { data: _, shift } => {
             if args.decode {
                 methods::caesar::caesar_decipher(&input_data, *shift)
