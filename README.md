@@ -1,8 +1,4 @@
 # *S*trin*G* *T*oo*L* (SGTL)
-![GitLab Release](https://img.shields.io/gitlab/v/release/https%3A%2F%2Fgitlab.com%2Fwilliamwith4ms%2Fsgtl)
-![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/https%3A%2F%2Fgitlab.com%2Fwilliamwith4ms%2Fsgtl)
-
-
 
 SGTL is a program that combines many other text tools into a unified tool. It can allow you to preform operations on strings such as base64 or cesar ciphers, and also compute various hashes such as sha256
 
