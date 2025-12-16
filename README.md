@@ -93,3 +93,4 @@ Currently the following is supported
 - Sha384
 - Sha224
 - Sha512_256
+- Md5

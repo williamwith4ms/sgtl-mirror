@@ -105,6 +105,15 @@ fn main() {
                 methods::caesar::caesar_encipher(&input_data, *shift)
             }
         }
+        Method::Md5 { data: _ } => {
+            if args.decode {
+                eprintln!(
+                    "Error: MD5 is 'one-way', but also not really."
+                );
+                std::process::exit(1);
+            }
+            methods::md5::md5_hash(&input_data)
+        }
     };
 
     if let Some(output_file) = args.output_file {

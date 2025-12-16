@@ -80,6 +80,13 @@ pub enum Method {
         long_about = None,
         after_help = "Example: sgtl caesar 3 'Hello, world!'")]
     Caesar { shift: i8, data: Option<String> },
+    #[command(
+        name = "md5", 
+        about = "Computes MD5 hash", 
+        long_about = None,
+        after_help = "Example: sgtl md5 -d 'Hello, world!'")]
+    Md5 { data: Option<String>  }
+
 }
 
 #[allow(dead_code)]
@@ -94,6 +101,7 @@ impl Method {
             | Method::Sha384 { data }
             | Method::Sha224 { data }
             | Method::Sha512_256 { data }
+            | Method::Md5 { data }
             | Method::Caesar { data, .. } => data,
         }
     }
