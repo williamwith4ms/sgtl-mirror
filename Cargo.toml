@@ -2,6 +2,7 @@
 name = "sgtl"
 version = "0.0.2"
 edition = "2024"
+default-run = "sgtl"
 
 [dependencies]
 base64 = "0.22.1"
