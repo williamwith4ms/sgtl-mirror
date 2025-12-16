@@ -1,15 +1,17 @@
 # *S*trin*G* *T*oo*L* (SGTL)
+[![Gitlab Pipeline Status](https://img.shields.io/gitlab/pipeline-status/williamwith4ms%2Fsgtl)](https://gitlab.com/williamwith4ms/sgtl/-/pipelines)
+[![GitLab License](https://img.shields.io/gitlab/license/williamwith4ms%2Fsgtl)](https://gitlab.com/williamwith4ms/sgtl/-/blob/main/LICENSE)
+[![GitLab Release](https://img.shields.io/gitlab/v/release/williamwith4ms%2Fsgtl)](https://gitlab.com/williamwith4ms/sgtl/-/releases)
 
 SGTL is a program that combines many other text tools into a unified tool. It can allow you to preform operations on strings such as base64 or cesar ciphers, and also compute various hashes such as sha256
 
 ## Install
-Installation is easy, build the repo and copy the binary to your chosen bin folder.
+Installation is easy, clone the repo and run the make.
 
 ```
 git clone https://gitlab.com/williamwith4ms/sgtl
 cd ./sgtl
-cargo build --release
-cp ./target/release/sgtl /usr/local/bin/
+sudo make install
 ```
 
 ## Usage
